@@ -66,16 +66,6 @@ RUN FIREFOX_URL="https://download.mozilla.org/?product=firefox-latest-ssl&os=lin
   && rm -rf /tmp/firefox.* \
   && firefox --version
 
-# install geckodriver
-
-RUN export GECKODRIVER_LATEST_RELEASE_URL=$(curl https://api.github.com/repos/mozilla/geckodriver/releases/latest | jq -r ".assets[] | select(.name | test(\"linux64\")) | .browser_download_url") \
-     && curl --silent --show-error --location --fail --retry 3 --output /tmp/geckodriver_linux64.tar.gz "$GECKODRIVER_LATEST_RELEASE_URL" \
-     && cd /tmp \
-     && tar xf geckodriver_linux64.tar.gz \
-     && rm -rf geckodriver_linux64.tar.gz \
-     && sudo mv geckodriver /usr/local/bin/geckodriver \
-     && sudo chmod +x /usr/local/bin/geckodriver \
-     && geckodriver --version
 
 # install chrome
 
@@ -96,13 +86,6 @@ RUN CHROME_VERSION="$(google-chrome --version)" \
     && sudo mv chromedriver /usr/local/bin/chromedriver \
     && sudo chmod +x /usr/local/bin/chromedriver \
     && chromedriver --version
-
-# Install Postgres
-
-RUN wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add - \
-    && sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' \
-    && sudo apt-get update \
-    && sudo apt-get install postgresql postgresql-contrib
 
 # start xvfb automatically to avoid needing to express
 ENV DISPLAY :99

@@ -1,4 +1,4 @@
-# kabug-rb
+# Projeto de Pipe com Ruby
 Repositório do projeto Kabug com Cucumber, Capybara e Ruby
 
 ## Como executar o projeto
